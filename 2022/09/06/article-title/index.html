@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>article title | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="浅谈前后端分离项目中的跨域问题1、跨域1.1 什么是域域可以简单理解为互联网中的某块地方的地址，有了这个地址就可以访问存放在那块地方的资源。 域由三部分组成：协议名、主机名、端口号。例如http:&#x2F;&#x2F;www.baidu.com:80，协议名为http，主机名为www.baidu.com，端口号为80。 1.2 CORS（跨域源资源共享）跨源资源共享 (CORS，Cross-origin resou">
+<meta property="og:type" content="article">
+<meta property="og:title" content="article title">
+<meta property="og:url" content="http://example.com/2022/09/06/article-title/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="浅谈前后端分离项目中的跨域问题1、跨域1.1 什么是域域可以简单理解为互联网中的某块地方的地址，有了这个地址就可以访问存放在那块地方的资源。 域由三部分组成：协议名、主机名、端口号。例如http:&#x2F;&#x2F;www.baidu.com:80，协议名为http，主机名为www.baidu.com，端口号为80。 1.2 CORS（跨域源资源共享）跨源资源共享 (CORS，Cross-origin resou">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-09-06T15:10:54.000Z">
+<meta property="article:modified_time" content="2022-09-06T15:11:28.054Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-article-title" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/09/06/article-title/" class="article-date">
+  <time class="dt-published" datetime="2022-09-06T15:10:54.000Z" itemprop="datePublished">2022-09-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      article title
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="浅谈前后端分离项目中的跨域问题"><a href="#浅谈前后端分离项目中的跨域问题" class="headerlink" title="浅谈前后端分离项目中的跨域问题"></a>浅谈前后端分离项目中的跨域问题</h3><h2 id="1、跨域"><a href="#1、跨域" class="headerlink" title="1、跨域"></a>1、跨域</h2><h3 id="1-1-什么是域"><a href="#1-1-什么是域" class="headerlink" title="1.1 什么是域"></a>1.1 什么是域</h3><p>域可以简单理解为互联网中的某块地方的地址，有了这个地址就可以访问存放在那块地方的资源。</p>
+<p>域由三部分组成：协议名、主机名、端口号。例如<a href="http://www.baidu.com:80，协议名为http，主机名为www.baidu.com，端口号为80。">http://www.baidu.com:80，协议名为http，主机名为www.baidu.com，端口号为80。</a></p>
+<h3 id="1-2-CORS（跨域源资源共享）"><a href="#1-2-CORS（跨域源资源共享）" class="headerlink" title="1.2 CORS（跨域源资源共享）"></a>1.2 CORS（跨域源资源共享）</h3><p><strong>跨源资源共享</strong> (<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Glossary/CORS">CORS</a>，Cross-origin resource sharing）是一种基于 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Glossary/HTTP">HTTP</a> 头的机制，该机制通过允许服务器标示除了它自己以外的其它 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Glossary/Origin">origin</a>（域，协议和端口），使得浏览器允许这些 origin 访问加载自己的资源。</p>
+<h3 id="1-3-什么是跨域"><a href="#1-3-什么是跨域" class="headerlink" title="1.3 什么是跨域"></a>1.3 什么是跨域</h3><p>在了解什么是跨域的时候，我们首先要了解一个概念，叫<strong>同源策略</strong>，什么是同源策略呢，就是我我们的浏览器出于安全考虑，只允许与<strong>本域</strong>下的接口交互。不同源的客户端脚本在没有明确授权的情况下，不能读写对方的资源。</p>
+<p>所以只要域的三个组成部分有至少一个不同时，就会产生跨域问题。例如，域A：<a target="_blank" rel="noopener" href="http://www.baidu.com/">http://www.baidu.com:80</a> 和 域B：<a href="ftp://www.baidu.com:8080，两个域的协议名和端口号不同，当域A请求读写域B的资源时就会出现跨域问题。">ftp://www.baidu.com:8080，两个域的协议名和端口号不同，当域A请求读写域B的资源时就会出现跨域问题。</a></p>
+<h2 id="2、前后端联调中遇到的问题实际遇到的问题"><a href="#2、前后端联调中遇到的问题实际遇到的问题" class="headerlink" title="2、前后端联调中遇到的问题实际遇到的问题"></a>2、前后端联调中遇到的问题实际遇到的问题</h2><p>当发生跨域时，浏览器会出现以下错误</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access to XMLHttpRequest at &#x27;http://localhost:3000/api/userlogin&#x27; from origin &#x27;http://localhost:8080&#x27; has been blocked by CORS policy: Response to preflight request doesn&#x27;t pass access control check: No &#x27;Access-Control-Allow-Origin&#x27; header is present on the requested resource.</span><br></pre></td></tr></table></figure>
+
+<p>我的前端页面<a href="http://localhost:8080请求后台http://localhost:3000/api/userlogin接口，由于端口号不一致而违反了同源策略，响应被浏览器拦截。">http://localhost:8080请求后台http://localhost:3000/api/userlogin接口，由于端口号不一致而违反了同源策略，响应被浏览器拦截。</a></p>
+<h2 id="3、-解决方案（后端）"><a href="#3、-解决方案（后端）" class="headerlink" title="3、 解决方案（后端）"></a>3、 解决方案（后端）</h2><h3 id="3-1-使用-CrossOrigin注解配置某一个方法接受某一个域的请求"><a href="#3-1-使用-CrossOrigin注解配置某一个方法接受某一个域的请求" class="headerlink" title="3.1 使用@CrossOrigin注解配置某一个方法接受某一个域的请求"></a>3.1 使用@CrossOrigin注解配置某一个方法接受某一个域的请求</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@Api(tags = &quot;用户&quot;)</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line">    <span class="meta">@CrossOrigin(origins = &quot;http://localhost:8080&quot;, maxAge = 1800)</span></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/userlogin&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> R&lt;UserLoginInfo&gt; <span class="title function_">userLogin</span><span class="params">(<span class="meta">@RequestBody</span> UserLoginInfo userLoginInfo)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> success(userLoginInfo, <span class="string">&quot;登录成功！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在某个方法前加@CrossOrigin注解使得该方法能够被参数指定的域访问。</p>
+<p>参数 origins ：能够被跨域请求的域。（ * 表示所有域）</p>
+<p>参数 maxAge : 准备响应前的缓存持续的最大时间（以秒为单位）。</p>
+<p><strong>当然也可以在类上加上@CrossOrigin注解</strong>使得该类的所有方法都能被跨域访问。</p>
+<h3 id="3-2-全局配置"><a href="#3-2-全局配置" class="headerlink" title="3.2 全局配置"></a>3.2 全局配置</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CrossOriginConfiguration</span> <span class="keyword">implements</span> <span class="title class_">WebMvcConfigurer</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addCorsMappings</span><span class="params">(CorsRegistry registry)</span> &#123;</span><br><span class="line">        registry.addMapping(<span class="string">&quot;/**&quot;</span>)<span class="comment">//匹配的请求路径</span></span><br><span class="line">                .allowedOrigins(<span class="string">&quot;*&quot;</span>)<span class="comment">//被允许的域</span></span><br><span class="line">                .allowedMethods(<span class="string">&quot;*&quot;</span>)<span class="comment">//请求的方法，例如POST，GET，PUT等</span></span><br><span class="line">                .allowedHeaders(<span class="string">&quot;*&quot;</span>)</span><br><span class="line">                .maxAge(<span class="number">1800</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/09/06/article-title/" data-id="cl7qby0t40000fctgdrc8cwv7" data-title="article title" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/09/06/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">September 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/09/06/article-title/">article title</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/06/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
