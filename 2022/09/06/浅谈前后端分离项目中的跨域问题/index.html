@@ -2,7 +2,7 @@
 <html>
 	<head>
 		
-<title>article title-Quiet</title>
+<title>浅谈前后端分离项目中的跨域问题-Quiet</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -284,7 +284,7 @@
             
         </ul>
         
-        <h1>article title</h1>
+        <h1>浅谈前后端分离项目中的跨域问题</h1>
         <div class="post-header-info">
             <div class="post-header-info-author">
                 
@@ -315,16 +315,37 @@
 <h3 id="1-3-什么是跨域"><a href="#1-3-什么是跨域" class="headerlink" title="1.3 什么是跨域"></a>1.3 什么是跨域</h3><p>在了解什么是跨域的时候，我们首先要了解一个概念，叫<strong>同源策略</strong>，什么是同源策略呢，就是我我们的浏览器出于安全考虑，只允许与<strong>本域</strong>下的接口交互。不同源的客户端脚本在没有明确授权的情况下，不能读写对方的资源。</p>
 <p>所以只要域的三个组成部分有至少一个不同时，就会产生跨域问题。例如，域A：<a target="_blank" rel="noopener" href="http://www.baidu.com/">http://www.baidu.com:80</a> 和 域B：<a href="ftp://www.baidu.com:8080，两个域的协议名和端口号不同，当域A请求读写域B的资源时就会出现跨域问题。">ftp://www.baidu.com:8080，两个域的协议名和端口号不同，当域A请求读写域B的资源时就会出现跨域问题。</a></p>
 <h2 id="2、前后端联调中遇到的问题实际遇到的问题"><a href="#2、前后端联调中遇到的问题实际遇到的问题" class="headerlink" title="2、前后端联调中遇到的问题实际遇到的问题"></a>2、前后端联调中遇到的问题实际遇到的问题</h2><p>当发生跨域时，浏览器会出现以下错误</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access to XMLHttpRequest at &#x27;http://localhost:3000/api/userlogin&#x27; from origin &#x27;http://localhost:8080&#x27; has been blocked by CORS policy: Response to preflight request doesn&#x27;t pass access control check: No &#x27;Access-Control-Allow-Origin&#x27; header is present on the requested resource.</span><br></pre></td></tr></table></figure>
-
+<pre><code>Access to XMLHttpRequest at &#39;http://localhost:3000/api/userlogin&#39; from origin &#39;http://localhost:8080&#39; has been blocked by CORS policy: Response to preflight request doesn&#39;t pass access control check: No &#39;Access-Control-Allow-Origin&#39; header is present on the requested resource.
+</code></pre>
 <p>我的前端页面<a href="http://localhost:8080请求后台http://localhost:3000/api/userlogin接口，由于端口号不一致而违反了同源策略，响应被浏览器拦截。">http://localhost:8080请求后台http://localhost:3000/api/userlogin接口，由于端口号不一致而违反了同源策略，响应被浏览器拦截。</a></p>
-<h2 id="3、-解决方案（后端）"><a href="#3、-解决方案（后端）" class="headerlink" title="3、 解决方案（后端）"></a>3、 解决方案（后端）</h2><h3 id="3-1-使用-CrossOrigin注解配置某一个方法接受某一个域的请求"><a href="#3-1-使用-CrossOrigin注解配置某一个方法接受某一个域的请求" class="headerlink" title="3.1 使用@CrossOrigin注解配置某一个方法接受某一个域的请求"></a>3.1 使用@CrossOrigin注解配置某一个方法接受某一个域的请求</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@Api(tags = &quot;用户&quot;)</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line">    <span class="meta">@CrossOrigin(origins = &quot;http://localhost:8080&quot;, maxAge = 1800)</span></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/userlogin&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> R&lt;UserLoginInfo&gt; <span class="title function_">userLogin</span><span class="params">(<span class="meta">@RequestBody</span> UserLoginInfo userLoginInfo)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> success(userLoginInfo, <span class="string">&quot;登录成功！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<h2 id="3、-解决方案（后端）"><a href="#3、-解决方案（后端）" class="headerlink" title="3、 解决方案（后端）"></a>3、 解决方案（后端）</h2><h3 id="3-1-使用-CrossOrigin注解配置某一个方法接受某一个域的请求"><a href="#3-1-使用-CrossOrigin注解配置某一个方法接受某一个域的请求" class="headerlink" title="3.1 使用@CrossOrigin注解配置某一个方法接受某一个域的请求"></a>3.1 使用@CrossOrigin注解配置某一个方法接受某一个域的请求</h3><pre><code class="java">@RestController
+@Api(tags = &quot;用户&quot;)
+@Slf4j
+public class UserController &#123;
+    @CrossOrigin(origins = &quot;http://localhost:8080&quot;, maxAge = 1800)
+    @RequestMapping(&quot;/userlogin&quot;)
+    public R&lt;UserLoginInfo&gt; userLogin(@RequestBody UserLoginInfo userLoginInfo) &#123;
+        return success(userLoginInfo, &quot;登录成功！&quot;);
+    &#125;
+&#125;
+</code></pre>
 <p>在某个方法前加@CrossOrigin注解使得该方法能够被参数指定的域访问。</p>
 <p>参数 origins ：能够被跨域请求的域。（ * 表示所有域）</p>
 <p>参数 maxAge : 准备响应前的缓存持续的最大时间（以秒为单位）。</p>
 <p><strong>当然也可以在类上加上@CrossOrigin注解</strong>使得该类的所有方法都能被跨域访问。</p>
-<h3 id="3-2-全局配置"><a href="#3-2-全局配置" class="headerlink" title="3.2 全局配置"></a>3.2 全局配置</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CrossOriginConfiguration</span> <span class="keyword">implements</span> <span class="title class_">WebMvcConfigurer</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addCorsMappings</span><span class="params">(CorsRegistry registry)</span> &#123;</span><br><span class="line">        registry.addMapping(<span class="string">&quot;/**&quot;</span>)<span class="comment">//匹配的请求路径</span></span><br><span class="line">                .allowedOrigins(<span class="string">&quot;*&quot;</span>)<span class="comment">//被允许的域</span></span><br><span class="line">                .allowedMethods(<span class="string">&quot;*&quot;</span>)<span class="comment">//请求的方法，例如POST，GET，PUT等</span></span><br><span class="line">                .allowedHeaders(<span class="string">&quot;*&quot;</span>)</span><br><span class="line">                .maxAge(<span class="number">1800</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-全局配置"><a href="#3-2-全局配置" class="headerlink" title="3.2 全局配置"></a>3.2 全局配置</h3><pre><code class="java">@Configuration
+public class CrossOriginConfiguration implements WebMvcConfigurer &#123;
+    @Override
+    public void addCorsMappings(CorsRegistry registry) &#123;
+        registry.addMapping(&quot;/**&quot;)//匹配的请求路径
+                .allowedOrigins(&quot;*&quot;)//被允许的域
+                .allowedMethods(&quot;*&quot;)//请求的方法，例如POST，GET，PUT等
+                .allowedHeaders(&quot;*&quot;)
+                .maxAge(1800);
+    &#125;
+&#125;
+</code></pre>
+
   </div>
   <div id="gitalk-container"></div>
 </div>
